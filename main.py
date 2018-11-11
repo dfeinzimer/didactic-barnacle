@@ -1,4 +1,4 @@
-#Version 11.11.18.2
+#Version 11.11.18.3
 # Adapted from http://wang.ecs.fullerton.edu/cpsc485/editdist.html
 # David Feinzimer 4168
 # Requirements
@@ -45,9 +45,15 @@ def print_matrix():
 # Print results out
 def set_result(a, b, c):
     print("The edit distance is: " + str(a))
+    print()
     print("Alignment is:")
-    print(b)
-    print(c)
+    for i in range(len(b)):
+        print(b[i],end='')
+    print()
+    for i in range(len(c)):
+        print(c[i],end='')
+    print()
+
 
 print("Welcome to Edit Distance Calculator")
 print("This program calculates the edit distance between two words using dynamic programming.")
@@ -77,3 +83,41 @@ for row in range(len(word_one)):
 
 print("The matrix:")
 print_matrix()
+
+b = []  # Word one alignment
+c = []  # Word two alignment
+
+row = len(word_one)
+column = len(word_two)
+
+while row > 0 and column > 0:
+    while column > 0 and column > 0:
+        print("Inspecting " + str(matrix[row][column]))
+        if word_one[row-1] == word_two[column-1]:
+            print("Char match, diagonal is best")
+            b.insert(0,word_one[row-1])
+            c.insert(0,word_two[column-1])
+            column -= 1
+            row -= 1
+            break
+        elif matrix[row][column] -1 == matrix[row-1][column-1]:
+            print("Diagonal is best")
+            b.insert(0,word_one[row-1])
+            c.insert(0,word_two[column-1])
+            column -= 1
+            row -= 1
+            break
+        elif matrix[row][column] -1 == matrix[row][column-1]:
+            print("Left is best")
+            b.insert(0,'_')
+            c.insert(0,word_two[column-1])
+            column -= 1
+            break
+        elif matrix[row][column] -1 == matrix[row-1][column]:
+            print("Up is best")
+            b.insert(0,word_one[row-1])
+            c.insert(0,'_')
+            row -= 1
+            break
+
+set_result(matrix[len(word_one)][len(word_two)],b,c)
