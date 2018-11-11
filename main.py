@@ -1,4 +1,4 @@
-#Version 11.11.18.1
+#Version 11.11.18.2
 # Adapted from http://wang.ecs.fullerton.edu/cpsc485/editdist.html
 # David Feinzimer 4168
 # Requirements
@@ -9,18 +9,9 @@
 from array import *
 
 edit_distance = None
-identical = False
 matrix = []
 word_one = None
 word_two = None
-
-# Check to see if the two words are identical
-def check_identical():
-    if word_one == word_two:
-        print("The two words are identical")
-        identical = True
-        set_result(0, word_one, word_two)
-        return True
 
 # Builds an empty matrix with the correct number of rows and columns
 def initialize_matrix():
@@ -53,8 +44,8 @@ def print_matrix():
 
 # Print results out
 def set_result(a, b, c):
-    print("Edit distance: " + str(a))
-    print("Alignment:")
+    print("The edit distance is: " + str(a))
+    print("Alignment is:")
     print(b)
     print(c)
 
@@ -65,28 +56,24 @@ print("Please input two words for the edit distance.")
 
 word_one = input("The first word: ")
 word_two = input("The second word: ")
-
-print("You entered: " + word_one + " and " + word_two)
 print()
 
-check_identical()
+# check_identical()
 
 initialize_matrix()
 
-print_matrix()
-
 for row in range(len(word_one)):
     for column in range(len(word_two)):
-        print("Comparing " + word_one[row] + " and " + word_two[column])
+        #print("Comparing " + word_one[row] + " and " + word_two[column])
         if word_one[row] == word_two[column]:
-            print("Match found")
+            #print("Match found")
             matrix[row+1][column+1] = matrix[row][column]
-            print_matrix()
+            #print_matrix()
         else:
-            print("Match not found")
-            print("Using " + str(min(matrix[row+1][column], matrix[row][column], matrix[row][column+1])) + " +1 for new entry")
+            #print("Match not found")
+            #print("Using " + str(min(matrix[row+1][column], matrix[row][column], matrix[row][column+1])) + " +1 for new entry")
             matrix[row+1][column+1] = min(matrix[row+1][column], matrix[row][column], matrix[row][column+1]) + 1
-            print_matrix()
+            #print_matrix()
 
-print("Evaluation complete")
+print("The matrix:")
 print_matrix()
