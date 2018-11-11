@@ -1,4 +1,4 @@
-#Version 11.11.18.3
+#Version 11.11.18.4
 # Adapted from http://wang.ecs.fullerton.edu/cpsc485/editdist.html
 # David Feinzimer 4168
 # Requirements
@@ -90,34 +90,24 @@ c = []  # Word two alignment
 row = len(word_one)
 column = len(word_two)
 
-while row > 0 and column > 0:
-    while column > 0 and column > 0:
-        print("Inspecting " + str(matrix[row][column]))
-        if word_one[row-1] == word_two[column-1]:
-            print("Char match, diagonal is best")
-            b.insert(0,word_one[row-1])
-            c.insert(0,word_two[column-1])
-            column -= 1
-            row -= 1
-            break
-        elif matrix[row][column] -1 == matrix[row-1][column-1]:
-            print("Diagonal is best")
-            b.insert(0,word_one[row-1])
-            c.insert(0,word_two[column-1])
-            column -= 1
-            row -= 1
-            break
-        elif matrix[row][column] -1 == matrix[row][column-1]:
-            print("Left is best")
-            b.insert(0,'_')
-            c.insert(0,word_two[column-1])
-            column -= 1
-            break
-        elif matrix[row][column] -1 == matrix[row-1][column]:
-            print("Up is best")
-            b.insert(0,word_one[row-1])
-            c.insert(0,'_')
-            row -= 1
-            break
+while len(b) != len(word_one):
+    if word_one[row-1] == word_two[column-1]:
+        b.insert(0,word_one[row-1])
+        c.insert(0,word_two[column-1])
+        column -= 1
+        row -= 1
+    elif matrix[row][column] -1 == matrix[row-1][column-1]:
+        b.insert(0,word_one[row-1])
+        c.insert(0,word_two[column-1])
+        column -= 1
+        row -= 1
+    elif matrix[row][column] -1 == matrix[row][column-1]:
+        b.insert(0,'_')
+        c.insert(0,word_two[column-1])
+        column -= 1
+    elif matrix[row][column] -1 == matrix[row-1][column]:
+        b.insert(0,word_one[row-1])
+        c.insert(0,'_')
+        row -= 1
 
 set_result(matrix[len(word_one)][len(word_two)],b,c)
